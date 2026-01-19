@@ -1,0 +1,26 @@
+# ContainerShip Makefile
+
+.PHONY: build clean test install
+
+# Build the binary
+build:
+	go build -o bin/cs .
+
+# Clean build artifacts
+clean:
+	rm -f bin/cs
+
+# Run tests
+test:
+	go test ./...
+
+# Install the binary to GOPATH/bin
+install: build
+	go install .
+
+# Run the application
+run: build
+	./bin/cs
+
+# Default target
+all: build
