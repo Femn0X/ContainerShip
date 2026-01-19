@@ -1,6 +1,6 @@
 module containership
 
-go 1.24.0
+go 1.23
 
 require (
 	github.com/compose-spec/compose-go v1.20.2
