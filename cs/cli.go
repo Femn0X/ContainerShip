@@ -22,6 +22,11 @@ func Run() error {
 	if err!=nil{
 		return err
 	}
+  case "down":
+	err:=Down()
+	if err!=nil{
+		return err
+	}
   case "status":
 	err:=getStatus()
 	if err!=nil{
@@ -53,11 +58,12 @@ func Run() error {
 	if err!=nil{
 		return err
 	}
+  case "restart":
+	err:=Restart()
+	if err!=nil{
+		return err
+	}
 	case "deploy":
-		err:=Deploy()
-		if err!=nil{
-			return err
-		}
 	// Add more commands as needed
  default:
   fmt.Println("Command not implemented yet")
@@ -74,14 +80,17 @@ func getStatus() error {
 		return err
 	}
 	ctx := context.Background()
-	for name := range manifest.Services {
-		containerJSON, err := cli.ContainerInspect(ctx, name)
-		if err != nil {
-			fmt.Printf("Container %s: Not found or error: %v\n", name, err)
-			continue
+	for name, svc := range manifest.Services {
+		containerNames := getContainerNames(name, svc)
+		for _, containerName := range containerNames {
+			containerJSON, err := cli.ContainerInspect(ctx, containerName)
+			if err != nil {
+				fmt.Printf("Container %s: Not found or error: %v\n", containerName, err)
+				continue
+			}
+			status := containerJSON.State.Status
+			fmt.Printf("Container %s: %s\n", containerName, status)
 		}
-		status := containerJSON.State.Status
-		fmt.Printf("Container %s: %s\n", name, status)
 	}
 	return nil
 }
@@ -91,6 +100,8 @@ func printUsage(){
 Usage:
 	cs ship       Start all services
 	cs stop       Stop all services
+	cs down       Stop and remove all services
+	cs restart    Restart all services
 	cs status     Show service status
 	cs list       List defined services
 	cs logs       Show logs for all services

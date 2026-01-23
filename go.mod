@@ -1,10 +1,11 @@
 module containership
 
-go 1.23
+go 1.24.0
 
 require (
 	github.com/compose-spec/compose-go v1.20.2
 	github.com/docker/docker v25.0.3+incompatible
+	github.com/docker/go-connections v0.6.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
@@ -13,7 +14,6 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/containerd/log v0.1.0 // indirect
 	github.com/distribution/reference v0.6.0 // indirect
-	github.com/docker/go-connections v0.6.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
